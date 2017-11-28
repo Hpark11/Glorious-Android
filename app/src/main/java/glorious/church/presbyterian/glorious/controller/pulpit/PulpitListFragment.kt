@@ -25,7 +25,10 @@ class PulpitListFragment: BaseFragment() {
     }
 
     private fun initViews(v: View) {
-        v.textView.setText("qwerqwrqrqe")
+
+
     }
+
+
 
 }

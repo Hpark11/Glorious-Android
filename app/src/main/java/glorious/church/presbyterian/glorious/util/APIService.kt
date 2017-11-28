@@ -23,21 +23,32 @@ data class Sermon(
 )
 
 interface SermonAPI {
-
     @GET("/playlistItems?maxResults=50&part=snippet&playlistId={playlistId}&key={key}")
     fun sermonsList(@Path("playlistId") playlistId: String,
                     @Path("key") key: String): Observable<MutableList<Sermon>>
 
     @GET("/videos?part=snippet&id={id}&key={key}")
-    fun featuredSermon(@Path("") id: String,
-                       @Path("key") key: String): Observable<Sermon>
+    fun featuredSermon(@Path("") id: String, @Path("key") key: String): Observable<Sermon>
 }
 
 object APIService {
+    val sermonListId = "UU4Y-jkVQdsAAqSzD51chjJQ"
+    val centerMessageListId = "UUwYStAqJNzgIEf33u7a0xiQ"
+
+    // 62가지
+    val messageId62 = "XOWZHSgo2cE"
+    // 강단
+    val messageIdMain = "eqpjAUrxAIw"
+    // 1분
+    val messageId1Min = "tLVsSZCuanI"
+    // 3분
+    val messageId3Min = "ADI7UI87BK8"
+    // 5분
+    val messageId5Min = "EjVYo15-3QU"
 
     val key: String = "AIzaSyB9WUuZbdt0h2zhhH3Y_PRmJ6zbUA1LWe0"
 
-    fun createAPIService(key: String): SermonAPI {
+    fun createAPIService(): SermonAPI {
         val builder = Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

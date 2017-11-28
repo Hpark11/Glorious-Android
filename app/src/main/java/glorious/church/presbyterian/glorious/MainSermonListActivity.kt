@@ -11,7 +11,8 @@ import glorious.church.presbyterian.glorious.controller.center.CenterMessageList
 import glorious.church.presbyterian.glorious.controller.misc.MiscMessageListFragment
 import glorious.church.presbyterian.glorious.controller.pulpit.PulpitListFragment
 import glorious.church.presbyterian.glorious.util.obtainViewModel
-import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+
 import kotlinx.android.synthetic.main.activity_main_sermon_list.*
 import java.util.*
 
@@ -20,6 +21,8 @@ class MainSermonListActivity : RxAppCompatActivity() {
 
     private lateinit var viewModel: MainSermonListViewModel
 
+
+    private var subscriptions = CompositeDisposable()
 
     var sample = Arrays.asList("banana", "orange", "apple", "apple mango", "melon", "waterMelon")
 
@@ -79,8 +82,14 @@ class MainSermonListActivity : RxAppCompatActivity() {
         changeMessageListType(MsgType.pulpit)
 
         viewModel = obtainViewModel().apply {
-
+            this.setObservables()
+            subscriptions.add(this.pulpitMessages.subscribe())
         }
+
+
+
+
+
 
 
         //        Observable.create(ObservableOnSubscribe<String> { e ->
@@ -102,9 +111,8 @@ class MainSermonListActivity : RxAppCompatActivity() {
         // --------------------------------------------------------
 
         //Observable.just("Hello, world~!~!").subscribe(message::setText).dispose()
-
-
     }
 
     private fun obtainViewModel(): MainSermonListViewModel = obtainViewModel(MainSermonListViewModel::class.java)
 }
+

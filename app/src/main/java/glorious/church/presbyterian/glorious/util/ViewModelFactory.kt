@@ -5,6 +5,7 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.VisibleForTesting
+import glorious.church.presbyterian.glorious.MainSermonListViewModel
 
 
 /**
@@ -15,12 +16,13 @@ class ViewModelFactory private constructor(
         private val application: Application
 ): ViewModelProvider.NewInstanceFactory() {
 
-//    override fun <T : ViewModel?> create(modelClass: Class<T>) =
-//            with(modelClass) {
-//                when {
-//
-//                }
-//            } as T
+    override fun <T : ViewModel?> create(modelClass: Class<T>) =
+            with(modelClass) {
+                when {
+                    isAssignableFrom(MainSermonListViewModel::class.java) -> MainSermonListViewModel(application)
+                    else -> throw IllegalArgumentException("Unknown ViewModel Class: ${modelClass.name}")
+                }
+            } as T
 
     companion object {
         @SuppressLint("StaticFieldLeak")

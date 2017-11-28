@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import glorious.church.presbyterian.glorious.R
 import glorious.church.presbyterian.glorious.controller.BaseFragment
 import glorious.church.presbyterian.glorious.databinding.FragmentFeaturedBinding
-import kotlinx.android.synthetic.main.fragment_message_list.view.*
 
 /**
  * Created by hpark_ipl on 2017. 11. 27..
