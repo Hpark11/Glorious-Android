@@ -1,6 +1,5 @@
 package glorious.church.presbyterian.glorious.controller.pulpit
 
-import android.app.Fragment
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,8 +20,12 @@ class PulpitListFragment: BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         b = DataBindingUtil.inflate(inflater, R.layout.fragment_message_list, container, false)
-        b.root.textView.setText("qweqweqwe")
+        initViews(b.root)
         return b.root
+    }
+
+    private fun initViews(v: View) {
+        v.textView.setText("qwerqwrqrqe")
     }
 
 }

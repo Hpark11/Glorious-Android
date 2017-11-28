@@ -10,15 +10,18 @@ import glorious.church.presbyterian.glorious.controller.BaseFragment
 import glorious.church.presbyterian.glorious.controller.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.controller.misc.MiscMessageListFragment
 import glorious.church.presbyterian.glorious.controller.pulpit.PulpitListFragment
+import glorious.church.presbyterian.glorious.util.obtainViewModel
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_main_sermon_list.*
 import java.util.*
 
 class MainSermonListActivity : RxAppCompatActivity() {
-    val tag = this.javaClass.simpleName
+    private val tag = this.javaClass.simpleName
+
+    private lateinit var viewModel: MainSermonListViewModel
+
 
     var sample = Arrays.asList("banana", "orange", "apple", "apple mango", "melon", "waterMelon")
-
 
     @OnClick(R.id.message)
     private fun loop() {
@@ -73,9 +76,11 @@ class MainSermonListActivity : RxAppCompatActivity() {
         setContentView(R.layout.activity_main_sermon_list)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        changeMessageListType(MsgType.pulpit)
 
+        viewModel = obtainViewModel().apply {
 
-
+        }
 
 
         //        Observable.create(ObservableOnSubscribe<String> { e ->
@@ -100,4 +105,6 @@ class MainSermonListActivity : RxAppCompatActivity() {
 
 
     }
+
+    private fun obtainViewModel(): MainSermonListViewModel = obtainViewModel(MainSermonListViewModel::class.java)
 }

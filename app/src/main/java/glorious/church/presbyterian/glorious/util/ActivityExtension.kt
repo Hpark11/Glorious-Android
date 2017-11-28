@@ -9,5 +9,5 @@ import android.support.v7.app.AppCompatActivity
  */
 
 
-fun <T: ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
+fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
         ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
