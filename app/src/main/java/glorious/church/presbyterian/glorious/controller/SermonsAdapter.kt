@@ -3,13 +3,12 @@ package glorious.church.presbyterian.glorious.controller
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import glorious.church.presbyterian.glorious.util.Sermon
+import glorious.church.presbyterian.glorious.model.Sermon
+
 
 /**
  * Created by hpark_ipl on 2017. 11. 28..
  */
-
-
 
 class SermonsAdapter(
         val items: List<Sermon>,

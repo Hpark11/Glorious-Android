@@ -1,6 +1,8 @@
 package glorious.church.presbyterian.glorious.util
 
 import android.text.TextUtils
+import glorious.church.presbyterian.glorious.model.Sermon
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -8,26 +10,30 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 /**
  * Created by hpark_ipl on 2017. 11. 28..
  */
 
-data class Sermon(
-        val id: String,
-        val title: String,
-        val description: String,
-        val imagePath: String,
-        val videoId: String
-)
+data class TestItem(val obj: Any)
+
+data class Contributor(val login: String = "", val contributions: Long = 0)
 
 interface SermonAPI {
-    @GET("/playlistItems?maxResults=50&part=snippet&playlistId={playlistId}&key={key}")
-    fun sermonsList(@Path("playlistId") playlistId: String,
-                    @Path("key") key: String): Observable<MutableList<Sermon>>
+    @GET("/repos/{owner}/{repo}/contributors")
+    fun contributors(@Path("owner") owner: String,
+                     @Path("repo") repo: String): Observable<MutableList<Contributor>>
 
-    @GET("/videos?part=snippet&id={id}&key={key}")
+    @GET("playlistItems?maxResults=50&part=snippet&playlistId={playlistId}&key={key}")
+    fun sermonsList(@Query("maxResults") maxResults: String,
+                    @Query("part") part: String,
+                    @Query("playlistId") playlistId: String,
+                    @Query("key") key: String
+                    ): Flowable<MutableList<TestItem>>
+
+    @GET("videos?part=snippet&id={id}&key={key}")
     fun featuredSermon(@Path("") id: String, @Path("key") key: String): Observable<Sermon>
 }
 
@@ -52,7 +58,7 @@ object APIService {
         val builder = Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://www.googleapis.com/youtube/v3")
+                .baseUrl("https://www.googleapis.com/youtube/v3/")
 
         if (!TextUtils.isEmpty(key)) {
             val client = OkHttpClient.Builder()

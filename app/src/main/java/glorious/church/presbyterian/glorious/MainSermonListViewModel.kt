@@ -4,10 +4,11 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.content.Context
 import android.util.Log
+import glorious.church.presbyterian.glorious.model.Sermon
 import glorious.church.presbyterian.glorious.util.APIService
-import glorious.church.presbyterian.glorious.util.Sermon
+import glorious.church.presbyterian.glorious.util.Contributor
+import glorious.church.presbyterian.glorious.util.TestItem
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -25,31 +26,25 @@ class MainSermonListViewModel(
     private val context: Context = context.applicationContext
     private val apiService = APIService.createAPIService()
 
-    public lateinit var pulpitMessages: Observable<MutableList<Sermon>>
+    public lateinit var pulpitMessages: Observable<MutableList<Contributor>>
     public lateinit var centerMessages: Observable<Sermon>
     public lateinit var featuredMessages: Observable<Sermon>
 
 
-    fun setObservables() {
-        pulpitMessages = apiService.sermonsList(APIService.sermonListId, APIService.key)
+    //APIService.sermonListId
+    //APIService.key
+    public fun setObservables() {
+        pulpitMessages = apiService.contributors("", "retrofit")
                 .flatMap { messages ->
                     Log.d(tag, messages.toString())
                     Observable.fromArray(messages)
                 }.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
 
-        //
-
 
 
 
     }
-
-
-
-
-
-
 
 
 
