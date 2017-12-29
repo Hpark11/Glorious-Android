@@ -1,19 +1,17 @@
 package glorious.church.presbyterian.glorious
 
-import android.app.FragmentTransaction
+
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import glorious.church.presbyterian.glorious.controller.BaseFragment
 import glorious.church.presbyterian.glorious.controller.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.controller.misc.MiscMessageListFragment
 import glorious.church.presbyterian.glorious.controller.pulpit.PulpitListFragment
-import glorious.church.presbyterian.glorious.util.SermonRepositoryProvider
 import glorious.church.presbyterian.glorious.util.obtainViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_main_sermon_list.*
 
@@ -31,13 +29,14 @@ class MainSermonListActivity : RxAppCompatActivity() {
     }
 
     private fun changeMessageListType(type: MsgType) {
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+
         val selectedFragement: BaseFragment?
 
         when(type) {
-            MsgType.pulpit -> { selectedFragement = CenterMessageListFragment() }
-            MsgType.center -> { selectedFragement = MiscMessageListFragment() }
-            MsgType.misc -> { selectedFragement = PulpitListFragment() }
+            MsgType.pulpit -> { selectedFragement = PulpitListFragment() }
+            MsgType.center -> { selectedFragement = CenterMessageListFragment() }
+            MsgType.misc -> { selectedFragement = MiscMessageListFragment() }
         }
 
         transaction.replace(messageListView.id, selectedFragement)
@@ -83,12 +82,12 @@ class MainSermonListActivity : RxAppCompatActivity() {
 //                        })
 //        )
 
-        viewModel = obtainViewModel().apply {
-            this.setObservables()
-            subscriptions.add(this.pulpitMessages.subscribe({
-               Log.d(tag, "${it.toString()}")
-            }))
-        }
+//        viewModel = obtainViewModel().apply {
+//            this.setObservables()
+//            subscriptions.add(this.pulpitMessages.subscribe({
+//               Log.d(tag, "${it.toString()}")
+//            }))
+//        }
 
 
         //        Observable.create(ObservableOnSubscribe<String> { e ->

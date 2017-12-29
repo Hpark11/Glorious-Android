@@ -1,8 +1,8 @@
-package glorious.church.presbyterian.glorious.util
+package glorious.church.presbyterian.glorious.repository
 
 import glorious.church.presbyterian.glorious.model.Result
+import glorious.church.presbyterian.glorious.util.SermonAPI
 import io.reactivex.Flowable
-import io.reactivex.Observable
 
 class SermonRepository(val apiService: SermonAPI) {
     fun searchResult(): Flowable<Result> {

@@ -12,7 +12,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface SermonAPI {
-
     @GET("playlistItems?")
     fun sermonsList(@Query("playlistId") playlistId: String,
                     @Query("maxResults") maxResults: Int = 50,
@@ -39,8 +38,6 @@ interface SermonAPI {
         val messageId5Min = "EjVYo15-3QU"
 
         val key: String = "AIzaSyB9WUuZbdt0h2zhhH3Y_PRmJ6zbUA1LWe0"
-
-
 
         fun createAPIService(): SermonAPI {
             val builder = Retrofit.Builder()

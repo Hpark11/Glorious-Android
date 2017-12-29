@@ -6,11 +6,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.VisibleForTesting
 import glorious.church.presbyterian.glorious.MainSermonListViewModel
-
-
-/**
- * Created by hpark_ipl on 2017. 11. 27..
- */
+import glorious.church.presbyterian.glorious.controller.pulpit.PulpitListViewModel
 
 class ViewModelFactory private constructor(
         private val application: Application
@@ -20,6 +16,7 @@ class ViewModelFactory private constructor(
             with(modelClass) {
                 when {
                     isAssignableFrom(MainSermonListViewModel::class.java) -> MainSermonListViewModel(application)
+                    isAssignableFrom(PulpitListViewModel::class.java) -> PulpitListViewModel(application)
                     else -> throw IllegalArgumentException("Unknown ViewModel Class: ${modelClass.name}")
                 }
             } as T
