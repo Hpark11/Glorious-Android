@@ -7,10 +7,6 @@ import android.support.annotation.MainThread
 import android.util.Log
 import java.util.concurrent.atomic.AtomicBoolean
 
-/**
- * Created by hpark_ipl on 2017. 11. 28..
- */
-
 class SingleLiveEvent<T>: MutableLiveData<T>() {
     private val pending = AtomicBoolean(false)
 

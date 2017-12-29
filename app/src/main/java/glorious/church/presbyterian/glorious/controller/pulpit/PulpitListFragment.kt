@@ -10,10 +10,6 @@ import glorious.church.presbyterian.glorious.controller.BaseFragment
 import glorious.church.presbyterian.glorious.databinding.FragmentMessageListBinding
 import kotlinx.android.synthetic.main.fragment_message_list.view.*
 
-/**
- * Created by hpark_ipl on 2017. 11. 27..
- */
-
 class PulpitListFragment: BaseFragment() {
 
     private lateinit var b: FragmentMessageListBinding
@@ -25,8 +21,6 @@ class PulpitListFragment: BaseFragment() {
     }
 
     private fun initViews(v: View) {
-
-
     }
 
 

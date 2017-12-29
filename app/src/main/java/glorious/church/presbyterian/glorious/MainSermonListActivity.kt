@@ -4,37 +4,25 @@ import android.app.FragmentTransaction
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.util.Log
-import butterknife.OnClick
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import glorious.church.presbyterian.glorious.controller.BaseFragment
 import glorious.church.presbyterian.glorious.controller.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.controller.misc.MiscMessageListFragment
 import glorious.church.presbyterian.glorious.controller.pulpit.PulpitListFragment
+import glorious.church.presbyterian.glorious.util.SermonRepositoryProvider
 import glorious.church.presbyterian.glorious.util.obtainViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_main_sermon_list.*
-import java.util.*
 
 class MainSermonListActivity : RxAppCompatActivity() {
     private val tag = this.javaClass.simpleName
 
     private lateinit var viewModel: MainSermonListViewModel
 
-
     private var subscriptions = CompositeDisposable()
-
-    var sample = Arrays.asList("banana", "orange", "apple", "apple mango", "melon", "waterMelon")
-
-    @OnClick(R.id.message)
-    private fun loop() {
-        for (s in sample) {
-            if(s.contains("apple")) {
-                Log.d(tag, s)
-                return
-            }
-        }
-    }
 
     private enum class MsgType {
         pulpit,
@@ -44,7 +32,7 @@ class MainSermonListActivity : RxAppCompatActivity() {
 
     private fun changeMessageListType(type: MsgType) {
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        var selectedFragement: BaseFragment?
+        val selectedFragement: BaseFragment?
 
         when(type) {
             MsgType.pulpit -> { selectedFragement = CenterMessageListFragment() }
@@ -81,15 +69,26 @@ class MainSermonListActivity : RxAppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         changeMessageListType(MsgType.pulpit)
 
+//        val repository = SermonRepositoryProvider.provideSermonRepository()
+//
+//        subscriptions.add(
+//                repository.searchResult()
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribeOn(Schedulers.io())
+//                        .subscribe ({
+//                            result ->
+//                            Log.d("Result", "There are (${result.kind}) Java developers in Lagos")
+//                        }, { error ->
+//                            error.printStackTrace()
+//                        })
+//        )
+
         viewModel = obtainViewModel().apply {
             this.setObservables()
-            subscriptions.add(this.pulpitMessages.subscribe())
+            subscriptions.add(this.pulpitMessages.subscribe({
+               Log.d(tag, "${it.toString()}")
+            }))
         }
-
-
-
-
-
 
 
         //        Observable.create(ObservableOnSubscribe<String> { e ->
@@ -111,6 +110,11 @@ class MainSermonListActivity : RxAppCompatActivity() {
         // --------------------------------------------------------
 
         //Observable.just("Hello, world~!~!").subscribe(message::setText).dispose()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        subscriptions.clear()
     }
 
     private fun obtainViewModel(): MainSermonListViewModel = obtainViewModel(MainSermonListViewModel::class.java)

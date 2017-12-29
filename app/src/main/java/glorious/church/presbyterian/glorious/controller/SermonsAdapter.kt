@@ -5,11 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import glorious.church.presbyterian.glorious.model.Sermon
 
-
-/**
- * Created by hpark_ipl on 2017. 11. 28..
- */
-
 class SermonsAdapter(
         val items: List<Sermon>,
         val listener: (Sermon) -> Unit
@@ -25,7 +20,6 @@ class SermonsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(items: Sermon, listener: (Sermon) -> Unit) = with(itemView) {
-
         }
     }
 }
