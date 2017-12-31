@@ -1,9 +1,8 @@
-package glorious.church.presbyterian.glorious.controller.pulpit
+package glorious.church.presbyterian.glorious.ui.pulpit
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.util.Log
-import glorious.church.presbyterian.glorious.MainSermonListViewModel
 import glorious.church.presbyterian.glorious.model.Result
 import glorious.church.presbyterian.glorious.util.SermonAPI
 import io.reactivex.Flowable

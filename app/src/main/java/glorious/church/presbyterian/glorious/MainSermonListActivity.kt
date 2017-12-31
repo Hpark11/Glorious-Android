@@ -3,19 +3,29 @@ package glorious.church.presbyterian.glorious
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.FragmentTransaction
 import android.util.Log
+import com.google.android.youtube.player.YouTubeBaseActivity
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import glorious.church.presbyterian.glorious.controller.BaseFragment
-import glorious.church.presbyterian.glorious.controller.center.CenterMessageListFragment
-import glorious.church.presbyterian.glorious.controller.misc.MiscMessageListFragment
-import glorious.church.presbyterian.glorious.controller.pulpit.PulpitListFragment
-import glorious.church.presbyterian.glorious.util.obtainViewModel
+import glorious.church.presbyterian.glorious.ui.BaseFragment
+import glorious.church.presbyterian.glorious.ui.center.CenterMessageListFragment
+import glorious.church.presbyterian.glorious.ui.misc.MiscMessageListFragment
+import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListFragment
+import glorious.church.presbyterian.glorious.util.SermonAPI
 import io.reactivex.disposables.CompositeDisposable
 
 import kotlinx.android.synthetic.main.activity_main_sermon_list.*
 
-class MainSermonListActivity : RxAppCompatActivity() {
+class MainSermonListActivity : RxAppCompatActivity(), YouTubePlayer.OnInitializedListener {
+    override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, p1: YouTubePlayer?, p2: Boolean) {
+
+    }
+
+    override fun onInitializationFailure(p0: YouTubePlayer.Provider?, p1: YouTubeInitializationResult?) {
+        Log.d(tag, "onInitializationFailure")
+    }
+
     private val tag = this.javaClass.simpleName
 
     private lateinit var viewModel: MainSermonListViewModel
@@ -29,7 +39,7 @@ class MainSermonListActivity : RxAppCompatActivity() {
     }
 
     private fun changeMessageListType(type: MsgType) {
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        //val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
         val selectedFragement: BaseFragment?
 
@@ -39,8 +49,8 @@ class MainSermonListActivity : RxAppCompatActivity() {
             MsgType.misc -> { selectedFragement = MiscMessageListFragment() }
         }
 
-        transaction.replace(messageListView.id, selectedFragement)
-        transaction.commit()
+        //transaction.replace(messageListView.id, selectedFragement)
+        //transaction.commit()
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -66,7 +76,14 @@ class MainSermonListActivity : RxAppCompatActivity() {
         setContentView(R.layout.activity_main_sermon_list)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        changeMessageListType(MsgType.pulpit)
+        //changeMessageListType(MsgType.pulpit)
+
+        youtubePlayerView.initialize(SermonAPI.key, this)
+
+
+
+
+
 
 //        val repository = SermonRepositoryProvider.provideSermonRepository()
 //
@@ -116,6 +133,6 @@ class MainSermonListActivity : RxAppCompatActivity() {
         subscriptions.clear()
     }
 
-    private fun obtainViewModel(): MainSermonListViewModel = obtainViewModel(MainSermonListViewModel::class.java)
+    //private fun obtainViewModel(): MainSermonListViewModel = obtainViewModel(MainSermonListViewModel::class.java)
 }
 

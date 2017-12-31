@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android" >
@@ -8,6 +7,19 @@
     <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorKeyBackground">
+
+        <fragment
+            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+            android:id="@+id/youtubeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <!--<com.google.android.youtube.player.YouTubePlayerView-->
+            <!--android:id="@+id/youtubePlayerView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="320dp">-->
+
+        <!--</com.google.android.youtube.player.YouTubePlayerView>-->
 
 
         <ImageView
@@ -18,7 +30,8 @@
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -26,7 +39,8 @@
             android:layout_height="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"/>
     </android.support.constraint.ConstraintLayout>
 
 </layout>

@@ -1,21 +1,21 @@
-package glorious.church.presbyterian.glorious.controller.pulpit
+package glorious.church.presbyterian.glorious.ui.pulpit
 
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.youtube.player.YouTubeStandalonePlayer
 import glorious.church.presbyterian.glorious.R
-import glorious.church.presbyterian.glorious.controller.BaseFragment
+import glorious.church.presbyterian.glorious.ui.BaseFragment
 import glorious.church.presbyterian.glorious.databinding.FragmentMessageListBinding
 import glorious.church.presbyterian.glorious.model.Sermon
-import glorious.church.presbyterian.glorious.util.ViewModelFactory
+import glorious.church.presbyterian.glorious.util.SermonAPI
 import glorious.church.presbyterian.glorious.util.obtainViewModel
-import kotlinx.android.synthetic.main.fragment_message_list.view.*
 
 class PulpitListFragment: BaseFragment() {
-
     private lateinit var b: FragmentMessageListBinding
     private lateinit var viewModel: PulpitListViewModel
 
@@ -33,6 +33,12 @@ class PulpitListFragment: BaseFragment() {
             }))
         }
 
+//        b.youtubePlayerView.initialize(SermonAPI.key, this)
+//        youtubePlayerView.initialize(SermonAPI.key, YouTubePlayer.OnInitializedListener(
+//        ))
+
+        val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(this.activity, SermonAPI.key, "1kOKRsfo1LI")
+        startActivity(intent)
         return b.root
     }
 
@@ -41,11 +47,6 @@ class PulpitListFragment: BaseFragment() {
     }
 
     private fun applyWith(sermonList: List<Sermon>) {
-
-    }
-
-    override fun onDetach() {
-        super.onDetach()
 
     }
 

@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.VisibleForTesting
 import glorious.church.presbyterian.glorious.MainSermonListViewModel
-import glorious.church.presbyterian.glorious.controller.pulpit.PulpitListViewModel
+import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListViewModel
 
 class ViewModelFactory private constructor(
         private val application: Application

@@ -1,4 +1,4 @@
-package glorious.church.presbyterian.glorious.controller
+package glorious.church.presbyterian.glorious.ui
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -20,7 +20,6 @@ class SermonsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(items: Sermon, listener: (Sermon) -> Unit) = with(itemView) {
-
         }
     }
 }
