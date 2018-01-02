@@ -71,7 +71,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dimen_youtube_player_default_space"
                 android:layout_marginRight="@dimen/dimen_youtube_player_default_space"
-                android:background="@drawable/ic_play_arrow_white_48dp" />
+                android:onClick="onPlayButtonTapped"
+                isVideoPlaying="@{isPlaying}"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

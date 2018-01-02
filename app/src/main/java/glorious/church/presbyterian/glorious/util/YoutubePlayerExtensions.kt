@@ -107,3 +107,15 @@ class __PlaybackEventListener: YouTubePlayer.PlaybackEventListener {
     }
 }
 
+inline fun YouTubePlayer.setPlaybackEventListener(func: __PlaybackEventListener.() -> Unit) {
+    val listener = __PlaybackEventListener()
+    listener.func()
+    setPlaybackEventListener(listener)
+}
+
+inline fun YouTubePlayer.setPlayerStateChangeListener(func: __PlayerStateChangeListener.() -> Unit) {
+    val listener = __PlayerStateChangeListener()
+    listener.func()
+    setPlayerStateChangeListener(listener)
+}
+

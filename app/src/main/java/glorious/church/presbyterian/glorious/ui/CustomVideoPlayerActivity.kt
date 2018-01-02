@@ -14,8 +14,8 @@ import com.google.android.youtube.player.YouTubePlayer
 import glorious.church.presbyterian.glorious.R
 import glorious.church.presbyterian.glorious.databinding.ActivityCustomVideoPlayerBinding
 import glorious.church.presbyterian.glorious.repository.SermonAPI
-import glorious.church.presbyterian.glorious.util.__PlaybackEventListener
-import glorious.church.presbyterian.glorious.util.__PlayerStateChangeListener
+import glorious.church.presbyterian.glorious.util.setPlaybackEventListener
+import glorious.church.presbyterian.glorious.util.setPlayerStateChangeListener
 
 class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
     companion object {
@@ -34,7 +34,7 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
 //            mPlayer?.play()
 //        }
 
-        ButterKnife.bind(this)
+        //ButterKnife.bind(this)
         mBinding.youTubePlayerView.initialize(SermonAPI.key, this)
     }
 
@@ -83,8 +83,7 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
         }
     }
 
-    @OnClick(R.id.playButton)
-    private fun onPlayButtonTapped(view: View) {
+    fun onPlayButtonTapped(view: View) {
         if(mPlayer.isPlaying) {
             mPlayer.pause()
         } else {
@@ -93,14 +92,3 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
     }
 }
 
-inline fun YouTubePlayer.setPlaybackEventListener(func: __PlaybackEventListener.() -> Unit) {
-    val listener = __PlaybackEventListener()
-    listener.func()
-    setPlaybackEventListener(listener)
-}
-
-inline fun YouTubePlayer.setPlayerStateChangeListener(func: __PlayerStateChangeListener.() -> Unit) {
-    val listener = __PlayerStateChangeListener()
-    listener.func()
-    setPlayerStateChangeListener(listener)
-}
