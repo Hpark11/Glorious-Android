@@ -1,24 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="isPlaying"
+            type="Boolean"/>
+    </data>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_youtube_player_control_bar_height"
+            android:background="@color/color_key_background"
+            android:orientation="horizontal"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:layout_width="@dimen/dimen_youtube_player_item_default_size"
+                android:layout_height="@dimen/dimen_youtube_player_item_default_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_youtube_player_default_space"
+                android:background="@android:color/transparent"
+                android:text="@string/string_youtube_player_exit"
+                android:textColor="@android:color/white" />
+
+            <SeekBar
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen_youtube_player_item_default_size"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
         <com.google.android.youtube.player.YouTubePlayerView
             android:id="@+id/youTubePlayerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         </com.google.android.youtube.player.YouTubePlayerView>
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_youtube_player_control_bar_height"
+            android:background="@color/color_key_background"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/playButton"
+                android:layout_width="@dimen/dimen_youtube_player_item_default_size"
+                android:layout_height="@dimen/dimen_youtube_player_item_default_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_youtube_player_default_space"
+                android:layout_marginRight="@dimen/dimen_youtube_player_default_space"
+                android:background="@drawable/ic_play_arrow_white_48dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_youtube_player_item_default_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_youtube_player_default_space"
+                android:gravity="center_vertical"
+                android:text="@string/string_youtube_player_default_time"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen_youtube_player_item_default_size"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_youtube_player_item_default_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/dimen_youtube_player_default_space"
+                android:gravity="center_vertical"
+                android:text="@string/string_youtube_player_default_time"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 </layout>

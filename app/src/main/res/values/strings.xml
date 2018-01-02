@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="string_youtube_player_exit">EXIT</string>
+    <string name="string_youtube_player_default_time">00:00</string>
 </resources>

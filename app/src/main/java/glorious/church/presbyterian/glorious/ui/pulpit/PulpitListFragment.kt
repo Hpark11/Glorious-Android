@@ -12,7 +12,7 @@ import glorious.church.presbyterian.glorious.R
 import glorious.church.presbyterian.glorious.ui.BaseFragment
 import glorious.church.presbyterian.glorious.databinding.FragmentMessageListBinding
 import glorious.church.presbyterian.glorious.model.Sermon
-import glorious.church.presbyterian.glorious.util.SermonAPI
+import glorious.church.presbyterian.glorious.repository.SermonAPI
 import glorious.church.presbyterian.glorious.util.obtainViewModel
 
 class PulpitListFragment: BaseFragment() {

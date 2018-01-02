@@ -20,6 +20,8 @@ class SermonsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(items: Sermon, listener: (Sermon) -> Unit) = with(itemView) {
+            // zigz
+
         }
     }
 }

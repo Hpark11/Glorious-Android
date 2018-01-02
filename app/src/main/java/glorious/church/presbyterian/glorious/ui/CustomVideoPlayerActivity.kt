@@ -3,16 +3,19 @@ package glorious.church.presbyterian.glorious.ui
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
+import butterknife.ButterKnife
+import butterknife.OnClick
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import glorious.church.presbyterian.glorious.R
 import glorious.church.presbyterian.glorious.databinding.ActivityCustomVideoPlayerBinding
-import glorious.church.presbyterian.glorious.util.SermonAPI
+import glorious.church.presbyterian.glorious.repository.SermonAPI
 import glorious.church.presbyterian.glorious.util.__PlaybackEventListener
 import glorious.church.presbyterian.glorious.util.__PlayerStateChangeListener
-import kotlinx.android.synthetic.main.activity_main_sermon_list.*
 
 class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
     companion object {
@@ -20,32 +23,53 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
         private val RECOVERY_REQUEST: Int = 1
     }
 
-    private var mPlayer: YouTubePlayer? = null
+    private lateinit var mPlayer: YouTubePlayer
     private lateinit var mBinding: ActivityCustomVideoPlayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        youtubePlayerView.initialize(SermonAPI.key, this)
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_custom_video_player)
+//        mBinding.playButton.setOnClickListener {
+//            mPlayer?.play()
+//        }
+
+        ButterKnife.bind(this)
+        mBinding.youTubePlayerView.initialize(SermonAPI.key, this)
     }
 
     override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, player: YouTubePlayer?, restored: Boolean) {
-        if(player == null) return
+        player?.let {
+            mPlayer = it
+            it.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS)
 
-        mPlayer = player
-        player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS)
+            it.setPlaybackEventListener {
+                onBuffering { Log.d(TAG, "onBuffering") }
+                onPaused {
+                    mBinding.isPlaying = false
+                    Log.d(TAG, "onPaused")
+                }
+                onSeekTo { Log.d(TAG, "onSeekTo") }
+                onStopped {
+                    mBinding.isPlaying = false
+                    Log.d(TAG, "onStopped")
+                }
+                onPlaying {
+                    mBinding.isPlaying = true
+                    Log.d(TAG, "onPlaying")
+                }
+            }
 
-        player.setPlaybackEventListener {
+            it.setPlayerStateChangeListener {
+                onAdStarted { Log.d(TAG, "onAdStarted")  }
+                onError { Log.d(TAG, "onError")  }
+                onLoaded { Log.d(TAG, "onLoaded")  }
+                onLoading { Log.d(TAG, "onLoading")  }
+                onVideoEnded { Log.d(TAG, "onVideoEnded")  }
+                onVideoStarted { Log.d(TAG, "onVideoStarted") }
+            }
 
-        }
-
-        player.setPlayerStateChangeListener {
-
-        }
-
-        if(!restored) {
-            player.loadVideo(SermonAPI.messageId1Min)
-            player.play()
+            if(!restored) { it.loadVideo(SermonAPI.messageId1Min) }
         }
 
         Log.d(TAG, "onInitializationSuccess")
@@ -56,6 +80,15 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
             reason.getErrorDialog(this, RECOVERY_REQUEST).show()
         } else {
             Toast.makeText(this, reason.toString(), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    @OnClick(R.id.playButton)
+    private fun onPlayButtonTapped(view: View) {
+        if(mPlayer.isPlaying) {
+            mPlayer.pause()
+        } else {
+            mPlayer.play()
         }
     }
 }

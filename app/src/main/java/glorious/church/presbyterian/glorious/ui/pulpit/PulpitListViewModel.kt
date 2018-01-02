@@ -4,7 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.util.Log
 import glorious.church.presbyterian.glorious.model.Result
-import glorious.church.presbyterian.glorious.util.SermonAPI
+import glorious.church.presbyterian.glorious.repository.SermonAPI
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

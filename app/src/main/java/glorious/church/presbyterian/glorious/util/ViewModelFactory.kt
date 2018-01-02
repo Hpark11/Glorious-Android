@@ -27,13 +27,11 @@ class ViewModelFactory private constructor(
 
         fun getInstance(application: Application) =
                 instance ?: synchronized(ViewModelFactory::class.java) {
-                    instance ?: ViewModelFactory(application)
-                            .also { instance = it }
+                    instance ?: ViewModelFactory(application).also { instance = it }
                 }
 
         @VisibleForTesting fun destroyInstance() {
             instance = null
         }
     }
-
 }

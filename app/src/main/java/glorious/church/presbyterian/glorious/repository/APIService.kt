@@ -1,4 +1,4 @@
-package glorious.church.presbyterian.glorious.util
+package glorious.church.presbyterian.glorious.repository
 
 import glorious.church.presbyterian.glorious.model.Result
 import glorious.church.presbyterian.glorious.model.Sermon

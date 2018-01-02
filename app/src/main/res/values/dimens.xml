@@ -5,4 +5,9 @@
 
     <dimen name="dimen_sermon_item_default_width">140dp</dimen>
     <dimen name="dimen_sermon_item_default_height">160dp</dimen>
+
+    <dimen name="dimen_youtube_player_control_bar_height">52dp</dimen>
+    <dimen name="dimen_youtube_player_item_default_size">42dp</dimen>
+
+    <dimen name="dimen_youtube_player_default_space">8dp</dimen>
 </resources>
