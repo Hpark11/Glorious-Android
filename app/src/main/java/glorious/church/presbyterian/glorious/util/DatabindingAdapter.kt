@@ -6,6 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import glorious.church.presbyterian.glorious.R
+import glorious.church.presbyterian.glorious.model.Snippet
+import glorious.church.presbyterian.glorious.model.Thumbnails
+import java.text.DateFormat
 
 @BindingAdapter("isVideoPlaying")
 fun setYoutubeVideoState(button: Button, isPlaying: Boolean) {
@@ -13,14 +16,26 @@ fun setYoutubeVideoState(button: Button, isPlaying: Boolean) {
     button.background = button.context.resources.getDrawable(id)
 }
 
-@BindingAdapter("thumbnailUrl")
-fun setThumbnail(imageView: ImageView, url: String?) {
-    url?.let { Picasso.with(imageView.context).load(url).into(imageView) }
+@BindingAdapter("thumbnails")
+fun setThumbnail(imageView: ImageView, thumbnails: Thumbnails) {
+    thumbnails.great?.let {
+        Picasso.with(imageView.context).load(it.url).into(imageView)
+        return
+    }
+
+    Picasso.with(imageView.context).load(thumbnails.high.url).into(imageView)
 }
 
 @BindingAdapter("sermonType")
-fun setSermonType(textView: TextView, title: String) {
-    //DateFormat.getDateInstance(DateFormat.MEDIUM).format(date) + info.replace("(말씀 *: *)([\\w-_?.]+)".toRegex(), "$2")
+fun setSermonType(textView: TextView, snippet: Snippet) {
+    val data: String
+    if(snippet.uploader == "worldremnant") {
+        data = DateFormat.getDateInstance(DateFormat.MEDIUM).format(snippet.published) +
+            snippet.title.replace("""([\w\d., ]*)(20[\d]{2})[\W]*(2nd|2nd service|1st|1st service|[dD]istrict|Core|Biz|New *Year's *MSG[\d: ]*|Remnant Day/Core|Biz MSG/[\w ]+)(: *)([\w\W]*)""".toRegex(), "$3")
+    } else {
+        data = snippet.title
+    }
+    textView.text = data
 }
 
 @BindingAdapter("uploader")

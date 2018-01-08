@@ -30,7 +30,7 @@
 
                 <ImageView
                     android:id="@+id/sermonImageView"
-                    thumbnailUrl="@{sermon.snippet.thumbnails.great.url}"
+                    thumbnails="@{sermon.snippet.thumbnails}"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:contentDescription="@string/app_name"
@@ -41,7 +41,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="@dimen/dimen_sermon_item_minimum_space"
-                    android:text="@{sermon.snippet.title}"
+                    sermonType="@{sermon.snippet}"
                     android:textAlignment="viewEnd"
                     android:textColor="@android:color/white"
                     tools:text="아아아앙" />

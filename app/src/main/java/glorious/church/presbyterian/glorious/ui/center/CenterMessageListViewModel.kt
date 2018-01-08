@@ -36,13 +36,11 @@ class CenterMessageListViewModel(
 //    case name = "(Sp[\\w]*r)\\ *:\\ *([\\w\\.\\ ]+)"
 
     val extractedTitle: (String) -> (String) = { title ->
-        val first = title.replace("""([\w\W]*)(제목 *: *[\w\W]*)""".toRegex(), "$2")
-        val second = first.replace("""(말씀 *: *)([\w\W\n]*)""".toRegex(), "")
-        second.replace("""(제목 *: *)([\w-_?.]+)""".toRegex(), "$2")
+        title.replace("""([\w\d., ]*)(20[\d]{2})[\W]*(2nd|2nd service|1st|1st service|[dD]istrict|Core|Biz|New *Year's *MSG[\d: ]*|Remnant Day/Core|Biz MSG/[\w ]+)(: *)([\w\W]*)""".toRegex(), "$5")
     }
 
     val extractedSubInfo: (String, Date) -> (String) = { info, date ->
-        DateFormat.getDateInstance(DateFormat.MEDIUM).format(date) +
-                info.replace("""([\w\W]*)(제목 *: *[\w\W]*)(말씀 *: *)""".toRegex(), "\n$3")
+        val list = info.split(",")
+        DateFormat.getDateInstance(DateFormat.MEDIUM).format(date) + "\n${list[0]}\n${list[1].trim()}\n${list[5].trim()}"
     }
 }

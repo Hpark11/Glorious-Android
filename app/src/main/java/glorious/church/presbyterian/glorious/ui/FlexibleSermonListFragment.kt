@@ -14,6 +14,8 @@ import glorious.church.presbyterian.glorious.databinding.FragmentMessageListBind
 import glorious.church.presbyterian.glorious.model.Sermon
 import glorious.church.presbyterian.glorious.model.Snippet
 import glorious.church.presbyterian.glorious.repository.SermonAPI
+import glorious.church.presbyterian.glorious.ui.center.CenterMessageListFragment
+import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListFragment
 import glorious.church.presbyterian.glorious.util.PlayerType
 import glorious.church.presbyterian.glorious.util.SharedRef
 import io.reactivex.disposables.CompositeDisposable
@@ -65,7 +67,14 @@ open class FlexibleSermonListFragment : Fragment() {
         openPlayerButton.visibility = View.VISIBLE
 
         Picasso.with(this.activity).load(imageUrl).into(mainSermonImageView)
-        titleTextView.text = title(snippet.description)
+        when(this) {
+            is CenterMessageListFragment -> {
+                titleTextView.text = title(snippet.title)
+            }
+            is PulpitListFragment -> {
+                titleTextView.text = title(snippet.description)
+            }
+        }
         subInfoTextView.text = subInfo(snippet.description, snippet.published)
     }
 
