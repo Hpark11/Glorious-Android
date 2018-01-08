@@ -9,18 +9,25 @@ data class ImageDetail(
         val height: Int
 )
 
+data class Video(
+        @SerializedName("kind") val kind: String,
+        @SerializedName("videoId") val id: String
+)
+
 data class Thumbnails(
         @SerializedName("default") val minimum: ImageDetail,
         @SerializedName("medium") val medium: ImageDetail,
         @SerializedName("high") val high: ImageDetail,
-        @SerializedName("standard") val great: ImageDetail
+        @SerializedName("standard") val great: ImageDetail?
 )
 
 data class Snippet(
         @SerializedName("publishedAt") val published: Date,
         @SerializedName("title") val title: String,
         @SerializedName("description") val description: String,
-        @SerializedName("thumbnails") val thumbnails: Thumbnails
+        @SerializedName("thumbnails") val thumbnails: Thumbnails,
+        @SerializedName("channelTitle") val uploader: String,
+        @SerializedName("resourceId") val video: Video
 )
 
 data class Sermon(

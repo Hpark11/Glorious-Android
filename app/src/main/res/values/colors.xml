@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#000000</color>
-    <color name="color_primary_dark">#151515</color>
+    <color name="color_primary">#151515</color>
+    <color name="color_primary_dark">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="color_key_background">#151515</color>
 
-
+    <color name="color_sermon_card_background">#2B2B2B</color>
 </resources>

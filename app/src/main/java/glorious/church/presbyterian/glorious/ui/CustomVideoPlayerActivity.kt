@@ -1,13 +1,13 @@
 package glorious.church.presbyterian.glorious.ui
 
+import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.Button
+import android.view.WindowManager
 import android.widget.Toast
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
@@ -16,6 +16,9 @@ import glorious.church.presbyterian.glorious.databinding.ActivityCustomVideoPlay
 import glorious.church.presbyterian.glorious.repository.SermonAPI
 import glorious.church.presbyterian.glorious.util.setPlaybackEventListener
 import glorious.church.presbyterian.glorious.util.setPlayerStateChangeListener
+import glorious.church.presbyterian.glorious.util.setOnSeekBarChangeListener
+import java.util.*
+import kotlin.concurrent.timerTask
 
 class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
     companion object {
@@ -25,17 +28,24 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
 
     private lateinit var mPlayer: YouTubePlayer
     private lateinit var mBinding: ActivityCustomVideoPlayerBinding
+    private var mProgressTimer: Timer = Timer()
+    private var videoId: String = SermonAPI.messageIdMain
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_custom_video_player)
-//        mBinding.playButton.setOnClickListener {
-//            mPlayer?.play()
-//        }
+        videoId = intent.getStringExtra("videoId")
 
-        //ButterKnife.bind(this)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_custom_video_player)
         mBinding.youTubePlayerView.initialize(SermonAPI.key, this)
+        mBinding.youtubePlayerSeekBar.setOnSeekBarChangeListener {
+            onProgressChanged { seekBar, progress, fromUser ->
+                if (fromUser) {
+                    mPlayer.seekToMillis(progress)
+                }
+            }
+        }
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, player: YouTubePlayer?, restored: Boolean) {
@@ -46,17 +56,25 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
             it.setPlaybackEventListener {
                 onBuffering { Log.d(TAG, "onBuffering") }
                 onPaused {
-                    mBinding.isPlaying = false
                     Log.d(TAG, "onPaused")
-                }
-                onSeekTo { Log.d(TAG, "onSeekTo") }
-                onStopped {
                     mBinding.isPlaying = false
+                    mProgressTimer.cancel()
+                }
+                onSeekTo { where ->
+                    Log.d(TAG, "onSeekTo")
+                }
+                onStopped {
                     Log.d(TAG, "onStopped")
+                    mBinding.isPlaying = false
+                    mProgressTimer.cancel()
                 }
                 onPlaying {
-                    mBinding.isPlaying = true
                     Log.d(TAG, "onPlaying")
+                    mBinding.isPlaying = true
+                    mProgressTimer = Timer()
+                    mProgressTimer.schedule(timerTask {
+                        mBinding.youtubePlayerSeekBar.progress = mPlayer.currentTimeMillis
+                    }, 0, 100)
                 }
             }
 
@@ -66,12 +84,16 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
                 onLoaded { Log.d(TAG, "onLoaded")  }
                 onLoading { Log.d(TAG, "onLoading")  }
                 onVideoEnded { Log.d(TAG, "onVideoEnded")  }
-                onVideoStarted { Log.d(TAG, "onVideoStarted") }
+                onVideoStarted {
+                    mBinding.youtubePlayerSeekBar.max = mPlayer.durationMillis
+                    Log.d(TAG, "onVideoStarted")
+                }
             }
 
-            if(!restored) { it.loadVideo(SermonAPI.messageId1Min) }
+            if(!restored) {
+                it.loadVideo(videoId)
+            }
         }
-
         Log.d(TAG, "onInitializationSuccess")
     }
 
@@ -90,5 +112,13 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
             mPlayer.play()
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        mProgressTimer.cancel()
+    }
 }
+
+
+
 

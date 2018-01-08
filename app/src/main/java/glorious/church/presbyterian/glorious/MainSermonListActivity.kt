@@ -4,7 +4,11 @@ package glorious.church.presbyterian.glorious
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.FragmentTransaction
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -13,6 +17,7 @@ import glorious.church.presbyterian.glorious.ui.CustomVideoPlayerActivity
 import glorious.church.presbyterian.glorious.ui.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.ui.misc.MiscMessageListFragment
 import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListFragment
+import glorious.church.presbyterian.glorious.util.PlayerType
 import io.reactivex.disposables.CompositeDisposable
 
 import kotlinx.android.synthetic.main.activity_main_sermon_list.*
@@ -23,6 +28,8 @@ class MainSermonListActivity : RxAppCompatActivity() {
     }
 
     private lateinit var viewModel: MainSermonListViewModel
+    private lateinit var selectedFragement: BaseFragment
+    private var mType: MsgType = MsgType.misc
     private var subscriptions = CompositeDisposable()
 
     private enum class MsgType {
@@ -32,17 +39,27 @@ class MainSermonListActivity : RxAppCompatActivity() {
     }
 
     private fun changeMessageListType(type: MsgType) {
-        //val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        val selectedFragement: BaseFragment?
-        
+        if(type == mType) return
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+
         when(type) {
-            MsgType.pulpit -> { selectedFragement = PulpitListFragment() }
-            MsgType.center -> { selectedFragement = CenterMessageListFragment() }
-            MsgType.misc -> { selectedFragement = MiscMessageListFragment() }
+            MsgType.pulpit -> {
+                selectedFragement = PulpitListFragment()
+                supportActionBar?.title = getString(R.string.title_home)
+            }
+            MsgType.center -> {
+                selectedFragement = CenterMessageListFragment()
+                supportActionBar?.title = getString(R.string.title_dashboard)
+            }
+            MsgType.misc -> {
+                selectedFragement = MiscMessageListFragment()
+                supportActionBar?.title = getString(R.string.title_notifications)
+            }
         }
 
-        //transaction.replace(messageListView.id, selectedFragement)
-        //transaction.commit()
+        transaction.replace(messageListView.id, selectedFragement)
+        transaction.commit()
+        mType = type
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -68,52 +85,29 @@ class MainSermonListActivity : RxAppCompatActivity() {
         setContentView(R.layout.activity_main_sermon_list)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        //changeMessageListType(MsgType.pulpit)
-        //youtubePlayerView.initialize(SermonAPI.key, this)
-        val intent = Intent(this, CustomVideoPlayerActivity::class.java)
-        startActivity(intent)
+        changeMessageListType(MsgType.pulpit)
+    }
 
-//        val repository = SermonRepositoryProvider.provideSermonRepository()
-//
-//        subscriptions.add(
-//                repository.searchResult()
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeOn(Schedulers.io())
-//                        .subscribe ({
-//                            result ->
-//                            Log.d("Result", "There are (${result.kind}) Java developers in Lagos")
-//                        }, { error ->
-//                            error.printStackTrace()
-//                        })
-//        )
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_type_video, menu)
+        return true
+    }
 
-//        viewModel = obtainViewModel().apply {
-//            this.setObservables()
-//            subscriptions.add(this.pulpitMessages.subscribe({
-//               Log.d(tag, "${it.toString()}")
-//            }))
-//        }
-
-
-        //        Observable.create(ObservableOnSubscribe<String> { e ->
-        //            e.onNext("Hello world!")
-        //            e.onComplete()
-        //        }).subscribe({ s ->
-        //            this.message.setText(s)
-        //        }, { e ->
-        //            this.message.setText(e.toString())
-        //        })
-
-        // --------------------------------------------------------
-
-        //        Observable.create<String> { s ->
-        //            s.onNext("Hello, World")
-        //            s.onComplete()
-        //        }.subscribe { o -> this.message.setText(o) }
-
-        // --------------------------------------------------------
-
-        //Observable.just("Hello, world~!~!").subscribe(message::setText).dispose()
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            when(it.itemId) {
+                R.id.basicStyle -> {
+                    selectedFragement.playerType = PlayerType.basic
+                }
+                R.id.youtubeStyle -> {
+                    selectedFragement.playerType = PlayerType.youtube
+                    return true
+                } else -> {
+                    return false
+                }
+            }
+        }
+        return false
     }
 
     override fun onDestroy() {

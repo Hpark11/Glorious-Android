@@ -3,11 +3,19 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="dimen_sermon_item_default_width">140dp</dimen>
-    <dimen name="dimen_sermon_item_default_height">160dp</dimen>
+    <dimen name="dimen_sermon_item_default_width">172dp</dimen>
+    <dimen name="dimen_sermon_item_default_height">220dp</dimen>
+    <dimen name="dimen_sermon_item_default_space">8dp</dimen>
+    <dimen name="dimen_sermon_item_minimum_space">4dp</dimen>
 
-    <dimen name="dimen_youtube_player_control_bar_height">52dp</dimen>
-    <dimen name="dimen_youtube_player_item_default_size">42dp</dimen>
+    <dimen name="dimen_youtube_player_control_bar_height">34dp</dimen>
+    <dimen name="dimen_youtube_player_item_default_size">32dp</dimen>
+    <dimen name="dimen_youtube_player_item_minimum_size">28dp</dimen>
 
     <dimen name="dimen_youtube_player_default_space">8dp</dimen>
+
+    <dimen name="text_h3">18sp</dimen>
+    <dimen name="text_h4">14sp</dimen>
+    <dimen name="text_h5">12sp</dimen>
+    <dimen name="text_h6">11sp</dimen>
 </resources>

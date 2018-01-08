@@ -11,11 +11,9 @@ import glorious.church.presbyterian.glorious.databinding.FragmentMessageListBind
 
 class CenterMessageListFragment: BaseFragment() {
 
-    private lateinit var b: FragmentMessageListBinding
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        b = DataBindingUtil.inflate(inflater, R.layout.fragment_message_list, container, false)
-        return b.root
+        super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
 }

@@ -1,6 +1,12 @@
 package glorious.church.presbyterian.glorious.util
 
+import android.widget.SeekBar
 import com.google.android.youtube.player.YouTubePlayer
+
+enum class PlayerType constructor(val value: Int) {
+    basic(0),
+    youtube(1)
+}
 
 class __PlayerStateChangeListener: YouTubePlayer.PlayerStateChangeListener {
     private var _onAdStarted: (() -> Unit)? = null
@@ -107,6 +113,36 @@ class __PlaybackEventListener: YouTubePlayer.PlaybackEventListener {
     }
 }
 
+class __SeekBarProgressChangeListener: SeekBar.OnSeekBarChangeListener {
+    private var _onProgressChanged: ((seekBar: SeekBar?, progress: Int, fromUser: Boolean) -> Unit)? = null
+    private var _onStartTrackingTouch: ((seekBar: SeekBar?) -> Unit)? = null
+    private var _onStopTrackingTouch: ((seekBar: SeekBar?) -> Unit)? = null
+
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        _onProgressChanged?.invoke(seekBar, progress, fromUser)
+    }
+
+    fun onProgressChanged(f: (seekBar: SeekBar?, progress: Int, fromUser: Boolean) -> Unit) {
+        _onProgressChanged = f
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        _onStartTrackingTouch?.invoke(seekBar)
+    }
+
+    fun onStartTrackingTouch(f: (seekBar: SeekBar?) -> Unit) {
+        _onStartTrackingTouch = f
+    }
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        _onStopTrackingTouch?.invoke(seekBar)
+    }
+
+    fun onStopTrackingTouch(f: (seekBar: SeekBar?) -> Unit) {
+        _onStopTrackingTouch = f
+    }
+}
+
 inline fun YouTubePlayer.setPlaybackEventListener(func: __PlaybackEventListener.() -> Unit) {
     val listener = __PlaybackEventListener()
     listener.func()
@@ -117,5 +153,11 @@ inline fun YouTubePlayer.setPlayerStateChangeListener(func: __PlayerStateChangeL
     val listener = __PlayerStateChangeListener()
     listener.func()
     setPlayerStateChangeListener(listener)
+}
+
+inline fun SeekBar.setOnSeekBarChangeListener(func: __SeekBarProgressChangeListener.() -> Unit) {
+    val listener = __SeekBarProgressChangeListener()
+    listener.func()
+    setOnSeekBarChangeListener(listener)
 }
 

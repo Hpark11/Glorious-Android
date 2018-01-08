@@ -76,4 +76,5 @@ dependencies {
     compile files('libs/YouTubeAndroidPlayerApi.jar')
 
     kapt "com.android.databinding:compiler:$gradlePluginVersion"
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }

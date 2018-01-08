@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="sermon"
+            type="glorious.church.presbyterian.glorious.model.Sermon" />
+    </data>
 
     <LinearLayout
         android:layout_width="@dimen/dimen_sermon_item_default_width"
-        android:layout_height="@dimen/dimen_sermon_item_default_height">
+        android:layout_height="@dimen/dimen_sermon_item_default_height"
+        android:layout_marginRight="@dimen/dimen_youtube_player_default_space">
 
         <android.support.v7.widget.CardView
+            android:id="@+id/sermonCardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/color_sermon_card_background"
+            app:cardCornerRadius="5dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/sermonImageView"
+                    thumbnailUrl="@{sermon.snippet.thumbnails.great.url}"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:padding="@dimen/dimen_sermon_item_minimum_space"
+                    android:text="@{sermon.snippet.title}"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@android:color/white"
+                    tools:text="아아아앙" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_sermon_item_minimum_space"
+                    uploader="@{sermon.snippet.uploader}"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/darker_gray"
+                    tools:text="아니엉하세요" />
+            </LinearLayout>
         </android.support.v7.widget.CardView>
-
     </LinearLayout>
 </layout>
 
