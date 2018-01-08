@@ -6,12 +6,12 @@ import android.util.Log
 import android.view.*
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 import glorious.church.presbyterian.glorious.repository.SermonAPI
-import glorious.church.presbyterian.glorious.ui.BaseFragment
+import glorious.church.presbyterian.glorious.ui.FlexibleSermonListFragment
 import glorious.church.presbyterian.glorious.ui.CustomVideoPlayerActivity
 import glorious.church.presbyterian.glorious.util.PlayerType
 import glorious.church.presbyterian.glorious.util.obtainViewModel
 
-class PulpitListFragment: BaseFragment() {
+class PulpitListFragment: FlexibleSermonListFragment() {
     private lateinit var viewModel: PulpitListViewModel
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {

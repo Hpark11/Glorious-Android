@@ -20,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_message_list.*
 import java.util.*
 
-open class BaseFragment : Fragment() {
+open class FlexibleSermonListFragment : Fragment() {
     protected lateinit var binding: FragmentMessageListBinding
     protected val subscriptions = CompositeDisposable()
     protected var videoId: String = SermonAPI.messageIdMain

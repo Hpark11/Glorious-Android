@@ -1,19 +1,13 @@
 package glorious.church.presbyterian.glorious
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
-import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubePlayer
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import glorious.church.presbyterian.glorious.ui.BaseFragment
-import glorious.church.presbyterian.glorious.ui.CustomVideoPlayerActivity
+import glorious.church.presbyterian.glorious.ui.FlexibleSermonListFragment
 import glorious.church.presbyterian.glorious.ui.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.ui.misc.MiscMessageListFragment
 import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListFragment
@@ -28,7 +22,7 @@ class MainSermonListActivity : RxAppCompatActivity() {
     }
 
     private lateinit var viewModel: MainSermonListViewModel
-    private lateinit var selectedFragement: BaseFragment
+    private lateinit var selectedFragement: FlexibleSermonListFragment
     private var mType: MsgType = MsgType.misc
     private var subscriptions = CompositeDisposable()
 
@@ -83,7 +77,6 @@ class MainSermonListActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_sermon_list)
-
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         changeMessageListType(MsgType.pulpit)
     }

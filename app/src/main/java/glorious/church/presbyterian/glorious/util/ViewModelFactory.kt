@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.VisibleForTesting
 import glorious.church.presbyterian.glorious.MainSermonListViewModel
+import glorious.church.presbyterian.glorious.ui.center.CenterMessageListViewModel
 import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListViewModel
 
 class ViewModelFactory private constructor(
@@ -17,6 +18,7 @@ class ViewModelFactory private constructor(
                 when {
                     isAssignableFrom(MainSermonListViewModel::class.java) -> MainSermonListViewModel(application)
                     isAssignableFrom(PulpitListViewModel::class.java) -> PulpitListViewModel(application)
+                    isAssignableFrom(CenterMessageListViewModel::class.java) -> CenterMessageListViewModel(application)
                     else -> throw IllegalArgumentException("Unknown ViewModel Class: ${modelClass.name}")
                 }
             } as T
