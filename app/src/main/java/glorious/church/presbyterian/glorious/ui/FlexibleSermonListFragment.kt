@@ -2,7 +2,6 @@ package glorious.church.presbyterian.glorious.ui
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 
@@ -13,12 +12,10 @@ import glorious.church.presbyterian.glorious.R
 import glorious.church.presbyterian.glorious.databinding.FragmentMessageListBinding
 import glorious.church.presbyterian.glorious.model.Sermon
 import glorious.church.presbyterian.glorious.model.Snippet
-import glorious.church.presbyterian.glorious.repository.SermonAPI
 import glorious.church.presbyterian.glorious.ui.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListFragment
 import glorious.church.presbyterian.glorious.util.PlayerType
 import glorious.church.presbyterian.glorious.util.SharedRef
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_message_list.*
 import java.util.*
 
@@ -40,6 +37,7 @@ open class FlexibleSermonListFragment : BaseFragment() {
     }
 
     protected fun applyWith(sermonList: List<Sermon>, title: (String) -> (String), subInfo: (String, Date) -> (String)) {
+        binding.loadingCircularProgressBar.visibility = View.GONE
         sermonListRecyclerView.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
 
         if (sermonList.isNotEmpty()) {

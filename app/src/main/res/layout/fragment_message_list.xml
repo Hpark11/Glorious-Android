@@ -101,7 +101,19 @@
             android:layout_marginBottom="@dimen/dimen_youtube_player_default_space"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/color_key_background"/>
+
+        <ProgressBar
+            android:id="@+id/loadingCircularProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:progressDrawable="@drawable/circular_loading_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -1,29 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="playerStyle"
-            type="glorious.church.presbyterian.glorious.util.PlayerType"/>
+            type="glorious.church.presbyterian.glorious.util.PlayerType" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/color_key_background">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/sermonListVerticalRecyclerView"
+        <ProgressBar
+            android:id="@+id/loadingCircularProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/circular_loading_progress_bar" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sermonListVerticalRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/playerStyleTextView"
+            playerStyle="@{playerStyle}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_sermon_item_minimum_space"
+            android:layout_marginTop="@dimen/dimen_sermon_item_minimum_space"
+            android:padding="@dimen/dimen_sermon_item_minimum_space"
+            android:textAlignment="viewEnd"
+            android:textColor="@android:color/darker_gray"
+            tools:text="플레이어 스타일: 기본" />
+    </FrameLayout>
 </layout>

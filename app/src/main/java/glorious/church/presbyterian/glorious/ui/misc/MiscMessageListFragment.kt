@@ -1,17 +1,22 @@
 package glorious.church.presbyterian.glorious.ui.misc
 
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.youtube.player.YouTubeStandalonePlayer
 import glorious.church.presbyterian.glorious.R
 import glorious.church.presbyterian.glorious.databinding.FragmentMessageListVerticalBinding
 import glorious.church.presbyterian.glorious.model.Sermon
-import glorious.church.presbyterian.glorious.model.Snippet
+import glorious.church.presbyterian.glorious.repository.SermonAPI
 import glorious.church.presbyterian.glorious.ui.BaseFragment
-import glorious.church.presbyterian.glorious.ui.SermonsAdapter
+import glorious.church.presbyterian.glorious.ui.CustomVideoPlayerActivity
+import glorious.church.presbyterian.glorious.ui.SermonsFixedAdapter
 import glorious.church.presbyterian.glorious.util.PlayerType
 import glorious.church.presbyterian.glorious.util.SharedRef
 import glorious.church.presbyterian.glorious.util.obtainViewModel
@@ -37,20 +42,26 @@ class MiscMessageListFragment: BaseFragment() {
             this.setObservables()
             subscriptions.add(this.miscMessages.subscribe({
                 Log.d(tag, "${it.toString()}")
-                //applyWith(sermonList = it.items, title = this.extractedTitle, subInfo = this.extractedSubInfo)
+                applyWith(sermonList = it.items, titles = this.titles)
             }))
         }
+
         return binding.root
     }
 
-    private fun applyWith(sermonList: List<Sermon>) {
-        sermonListVerticalRecyclerView.adapter = SermonsAdapter(sermonList, { sermon ->
-            showBasicSermonInfo(sermon.snippet)
+    private fun applyWith(sermonList: List<Sermon>, titles: List<String>) {
+        binding.loadingCircularProgressBar.visibility = View.GONE
+        sermonListVerticalRecyclerView.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        sermonListVerticalRecyclerView.adapter = SermonsFixedAdapter(sermonList, titles, { sermon ->
+            val intent: Intent
+            if(playerType == PlayerType.youtube) {
+                intent = YouTubeStandalonePlayer.createVideoIntent(activity, SermonAPI.key, sermon.id)
+            } else {
+                intent = Intent(activity, CustomVideoPlayerActivity::class.java)
+                intent.putExtra("videoId", sermon.id)
+            }
+            startActivity(intent)
         })
-    }
-
-    private fun showBasicSermonInfo(snippet: Snippet) {
-
     }
 
     private fun obtainViewModel(): MiscMessageListViewModel = obtainViewModel(MiscMessageListViewModel::class.java)

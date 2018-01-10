@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import glorious.church.presbyterian.glorious.databinding.ItemSermonFixedBinding
 import glorious.church.presbyterian.glorious.model.Sermon
 
-
 class SermonsFixedAdapter(
         val items: List<Sermon>,
+        val titles: List<String>,
         val listener: (Sermon) -> Unit
 ): RecyclerView.Adapter<SermonsFixedAdapter.ViewHolder>() {
 
@@ -16,13 +16,14 @@ class SermonsFixedAdapter(
             = ViewHolder(ItemSermonFixedBinding.inflate(LayoutInflater.from(parent!!.context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int)
-            = holder!!.bind(items[position], listener)
+            = holder!!.bind(items[position], titles[position], listener)
 
     override fun getItemCount() = items.size
 
     class ViewHolder(val sermonBinding: ItemSermonFixedBinding): RecyclerView.ViewHolder(sermonBinding.root) {
-        fun bind(item: Sermon, listener: (Sermon) -> Unit) = with(itemView) {
+        fun bind(item: Sermon, title: String, listener: (Sermon) -> Unit) = with(itemView) {
             sermonBinding.sermon = item
+            sermonBinding.title = title
             sermonBinding.sermonFixedCardView.setOnClickListener { listener(item) }
         }
     }
