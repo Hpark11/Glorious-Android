@@ -5,7 +5,7 @@
     <string name="title_notifications">구원의 길</string>
 
     <string name="string_youtube_player_exit">EXIT</string>
-    <string name="string_youtube_player_default_time">00:00</string>
+    <string name="string_youtube_player_default_time">00:00:00</string>
 
     <string name="player_style_basic">기본 스타일</string>
     <string name="player_style_youtube">유튜브 스타일</string>

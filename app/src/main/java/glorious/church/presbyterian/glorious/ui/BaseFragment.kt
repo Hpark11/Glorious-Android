@@ -17,7 +17,6 @@ open class BaseFragment: Fragment() {
             shared.playerStyle = value
         }
 
-
     override fun onDetach() {
         super.onDetach()
         subscriptions.clear()

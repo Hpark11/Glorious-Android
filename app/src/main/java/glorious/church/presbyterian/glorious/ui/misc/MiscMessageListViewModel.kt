@@ -33,7 +33,6 @@ class MiscMessageListViewModel(
                         }
                 )
                 .flatMap { messages ->
-                    Log.d(TAG, messages.toString())
                     Observable.fromArray(messages)
                 }.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

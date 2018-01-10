@@ -7,7 +7,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="glorious.church.presbyterian.glorious.MainSermonListActivity"
+    tools:context="glorious.church.presbyterian.glorious.ui.MainSermonListActivity"
     android:background="@color/color_key_background">
 
     <android.support.design.widget.BottomNavigationView
@@ -17,6 +17,9 @@
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:background="?android:attr/windowBackground"
+        app:itemBackground="@color/color_sermon_card_background"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

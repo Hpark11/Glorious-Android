@@ -25,7 +25,6 @@ class CenterMessageListViewModel(
     fun setObservables() {
         centerMessages = apiService.sermonsList(SermonAPI.centerMessageListId)
                 .flatMap { messages ->
-                    //Log.d(TAG, messages.toString())
                     Flowable.fromArray(messages)
                 }.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

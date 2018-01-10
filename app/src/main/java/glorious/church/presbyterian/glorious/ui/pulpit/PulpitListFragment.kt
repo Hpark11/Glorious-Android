@@ -20,7 +20,6 @@ class PulpitListFragment: FlexibleSermonListFragment() {
         viewModel = obtainViewModel().apply {
             this.setObservables()
             subscriptions.add(this.pulpitMessages.subscribe({
-                //Log.d(tag, "${it.toString()}")
                 applyWith(sermonList = it.items, title = this.extractedTitle, subInfo = this.extractedSubInfo)
             }))
         }

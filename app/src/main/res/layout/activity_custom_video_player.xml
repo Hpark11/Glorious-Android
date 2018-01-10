@@ -47,6 +47,7 @@
                 android:onClick="onPlayButtonTapped" />
 
             <TextView
+                android:id="@+id/currentPositionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dimen_youtube_player_item_default_size"
                 android:layout_gravity="center_vertical"
@@ -64,6 +65,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/totalDurationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dimen_youtube_player_item_default_size"
                 android:layout_gravity="center_vertical"

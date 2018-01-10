@@ -1,4 +1,4 @@
-package glorious.church.presbyterian.glorious
+package glorious.church.presbyterian.glorious.ui
 
 
 import android.os.Bundle
@@ -7,8 +7,7 @@ import android.support.v4.app.FragmentTransaction
 import android.view.Menu
 import android.view.MenuItem
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import glorious.church.presbyterian.glorious.ui.BaseFragment
-import glorious.church.presbyterian.glorious.ui.FlexibleSermonListFragment
+import glorious.church.presbyterian.glorious.R
 import glorious.church.presbyterian.glorious.ui.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.ui.misc.MiscMessageListFragment
 import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListFragment

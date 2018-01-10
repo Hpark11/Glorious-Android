@@ -26,14 +26,13 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
         private val RECOVERY_REQUEST: Int = 1
     }
 
-    private lateinit var mPlayer: YouTubePlayer
+    private var mPlayer: YouTubePlayer? = null
     private lateinit var mBinding: ActivityCustomVideoPlayerBinding
     private var mProgressTimer: Timer = Timer()
     private var videoId: String = SermonAPI.messageIdMain
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         videoId = intent.getStringExtra("videoId")
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_custom_video_player)
@@ -41,7 +40,7 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
         mBinding.youtubePlayerSeekBar.setOnSeekBarChangeListener {
             onProgressChanged { seekBar, progress, fromUser ->
                 if (fromUser) {
-                    mPlayer.seekToMillis(progress)
+                    mPlayer!!.seekToMillis(progress)
                 }
             }
         }
@@ -56,36 +55,34 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
             it.setPlaybackEventListener {
                 onBuffering { Log.d(TAG, "onBuffering") }
                 onPaused {
-                    Log.d(TAG, "onPaused")
                     mBinding.isPlaying = false
                     mProgressTimer.cancel()
                 }
-                onSeekTo { where ->
-                    Log.d(TAG, "onSeekTo")
-                }
+                onSeekTo { mProgressTimer.cancel() }
                 onStopped {
-                    Log.d(TAG, "onStopped")
                     mBinding.isPlaying = false
                     mProgressTimer.cancel()
                 }
                 onPlaying {
                     Log.d(TAG, "onPlaying")
                     mBinding.isPlaying = true
+                    mBinding.totalDurationTextView.text = representativeTime(it.durationMillis)
+
                     mProgressTimer = Timer()
                     mProgressTimer.schedule(timerTask {
-                        mBinding.youtubePlayerSeekBar.progress = mPlayer.currentTimeMillis
+                        runOnUiThread {
+                            mPlayer?.let {
+                                mBinding.youtubePlayerSeekBar.progress = it.currentTimeMillis
+                                mBinding.currentPositionTextView.text = representativeTime(it.currentTimeMillis)
+                            }
+                        }
                     }, 0, 100)
                 }
             }
 
             it.setPlayerStateChangeListener {
-                onAdStarted { Log.d(TAG, "onAdStarted")  }
-                onError { Log.d(TAG, "onError")  }
-                onLoaded { Log.d(TAG, "onLoaded")  }
-                onLoading { Log.d(TAG, "onLoading")  }
-                onVideoEnded { Log.d(TAG, "onVideoEnded")  }
                 onVideoStarted {
-                    mBinding.youtubePlayerSeekBar.max = mPlayer.durationMillis
+                    mBinding.youtubePlayerSeekBar.max = it.durationMillis
                     Log.d(TAG, "onVideoStarted")
                 }
             }
@@ -97,6 +94,13 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
         Log.d(TAG, "onInitializationSuccess")
     }
 
+    private fun representativeTime(milliseconds: Int): String {
+        val total = milliseconds / 1000
+        val minute = if("${total / 60 % 60}".length < 2) "0${total / 60 % 60}" else "${total / 60 % 60}"
+        val second = if("${total % 60}".length < 2) "0${total % 60}" else "${total % 60}"
+        return "${total / 3600}:${minute}:${second}"
+    }
+
     override fun onInitializationFailure(provider: YouTubePlayer.Provider?, reason: YouTubeInitializationResult?) {
         if(reason!!.isUserRecoverableError) {
             reason.getErrorDialog(this, RECOVERY_REQUEST).show()
@@ -106,16 +110,13 @@ class CustomVideoPlayerActivity: YouTubeBaseActivity(), YouTubePlayer.OnInitiali
     }
 
     fun onPlayButtonTapped(view: View) {
-        if(mPlayer.isPlaying) {
-            mPlayer.pause()
-        } else {
-            mPlayer.play()
+        mPlayer?.let {
+            if(it.isPlaying) {
+                it.pause()
+            } else {
+                it.play()
+            }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mProgressTimer.cancel()
     }
 }
 

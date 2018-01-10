@@ -24,7 +24,6 @@ class PulpitListViewModel(
     fun setObservables() {
         pulpitMessages = apiService.sermonsList(SermonAPI.sermonListId)
                 .flatMap { messages ->
-                    //Log.d(TAG, messages.toString())
                     Flowable.fromArray(messages)
                 }.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

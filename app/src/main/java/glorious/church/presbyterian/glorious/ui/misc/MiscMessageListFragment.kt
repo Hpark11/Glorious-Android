@@ -41,7 +41,6 @@ class MiscMessageListFragment: BaseFragment() {
         viewModel = obtainViewModel().apply {
             this.setObservables()
             subscriptions.add(this.miscMessages.subscribe({
-                Log.d(tag, "${it.toString()}")
                 applyWith(sermonList = it.items, titles = this.titles)
             }))
         }
