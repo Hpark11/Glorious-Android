@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction
 import android.view.Menu
 import android.view.MenuItem
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import glorious.church.presbyterian.glorious.ui.BaseFragment
 import glorious.church.presbyterian.glorious.ui.FlexibleSermonListFragment
 import glorious.church.presbyterian.glorious.ui.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.ui.misc.MiscMessageListFragment
@@ -21,8 +22,7 @@ class MainSermonListActivity : RxAppCompatActivity() {
         private val TAG = this::class.java.simpleName
     }
 
-    private lateinit var viewModel: MainSermonListViewModel
-    private lateinit var selectedFragement: FlexibleSermonListFragment
+    private lateinit var selectedFragement: BaseFragment
     private var mType: MsgType = MsgType.misc
     private var subscriptions = CompositeDisposable()
 

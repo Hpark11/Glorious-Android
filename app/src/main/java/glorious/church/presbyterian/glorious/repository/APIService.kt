@@ -19,8 +19,10 @@ interface SermonAPI {
                     @Query("key") key: String = Factory.key
     ): Flowable<Result>
 
-    @GET("videos?part=snippet&id={id}&key={key}")
-    fun featuredSermon(@Path("") id: String, @Path("key") key: String): Observable<Sermon>
+    @GET("videos?")
+    fun featuredSermon(@Query("id") id: String,
+                       @Query("part") part: String = "snippet",
+                       @Query("key") key: String = Factory.key): Observable<Result>
 
     companion object Factory {
         val sermonListId = "UU4Y-jkVQdsAAqSzD51chjJQ"

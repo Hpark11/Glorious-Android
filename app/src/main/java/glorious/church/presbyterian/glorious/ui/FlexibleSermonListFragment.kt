@@ -22,13 +22,10 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_message_list.*
 import java.util.*
 
-open class FlexibleSermonListFragment : Fragment() {
+open class FlexibleSermonListFragment : BaseFragment() {
     protected lateinit var binding: FragmentMessageListBinding
-    protected val subscriptions = CompositeDisposable()
-    protected var videoId: String = SermonAPI.messageIdMain
-    private lateinit var shared: SharedRef
 
-    var playerType: PlayerType = PlayerType.basic
+    override var playerType: PlayerType = PlayerType.basic
         set(value) {
             field = value
             shared.playerStyle = value

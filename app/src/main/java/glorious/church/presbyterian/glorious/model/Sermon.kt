@@ -38,8 +38,8 @@ data class Sermon(
 )
 
 data class Result(
-        val kind: String,
-        val nextPageToken: String,
+        val kind: String?,
+        val nextPageToken: String?,
         val items: List<Sermon>
 )
 

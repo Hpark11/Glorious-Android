@@ -30,8 +30,32 @@ fun setThumbnail(imageView: ImageView, thumbnails: Thumbnails) {
 fun setSermonType(textView: TextView, snippet: Snippet) {
     val data: String
     if(snippet.uploader == "worldremnant") {
-        data = DateFormat.getDateInstance(DateFormat.MEDIUM).format(snippet.published) +
-            snippet.title.replace("""([\w\d., ]*)(20[\d]{2})[\W]*(2nd|2nd service|1st|1st service|[dD]istrict|Core|Biz|New *Year's *MSG[\d: ]*|Remnant Day/Core|Biz MSG/[\w ]+)(: *)([\w\W]*)""".toRegex(), "$3")
+        val type: String
+        if(snippet.title.contains("""2 *nd""".toRegex())) {
+            type = "2부 예배"
+        } else if (snippet.title.contains("""1 *st""".toRegex())) {
+            type = "1부 예배"
+        } else if (snippet.title.contains("""[dD]istrict""".toRegex())) {
+            type = "구역 예배"
+        } else if (snippet.title.contains("Core")) {
+            type = "핵심"
+        } else if (snippet.title.contains("Biz")) {
+            type = "산업선교"
+        } else if (snippet.title.contains("""New *Year's *MSG *2""".toRegex())) {
+            type = "송구영신 3부"
+        } else if (snippet.title.contains("""New *Year's *MSG *1""".toRegex())) {
+            type = "송구영신 2부"
+        } else if (snippet.title.contains("""New *Year's *MSG""".toRegex())) {
+            type = "송구영신 1부"
+        } else if (snippet.title.contains("Christmas")) {
+            type = "성탄 예배"
+        } else if (snippet.title.contains("Remnant Day")) {
+            type = "렘넌트데이"
+        } else {
+            type = "예배"
+        }
+
+        data = "임마누엘교회 ${DateFormat.getDateInstance(DateFormat.MEDIUM).format(snippet.published)}\n본부 $type"
     } else {
         data = snippet.title
     }
