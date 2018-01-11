@@ -23,7 +23,8 @@
             app:layout_constraintBottom_toTopOf="@+id/sermonListRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/color_key_background">
 
             <ImageView
                 android:id="@+id/mainSermonImageView"
@@ -97,12 +98,12 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sermonListRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_sermon_item_default_height"
+            android:layout_height="221dp"
             android:layout_marginBottom="@dimen/dimen_youtube_player_default_space"
+            android:background="@color/color_key_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/color_key_background"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ProgressBar
             android:id="@+id/loadingCircularProgressBar"

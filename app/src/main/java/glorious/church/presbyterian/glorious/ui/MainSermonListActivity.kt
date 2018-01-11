@@ -1,9 +1,12 @@
 package glorious.church.presbyterian.glorious.ui
 
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -12,6 +15,7 @@ import glorious.church.presbyterian.glorious.ui.center.CenterMessageListFragment
 import glorious.church.presbyterian.glorious.ui.misc.MiscMessageListFragment
 import glorious.church.presbyterian.glorious.ui.pulpit.PulpitListFragment
 import glorious.church.presbyterian.glorious.util.PlayerType
+import glorious.church.presbyterian.glorious.util.showNetworkAlertDialog
 import io.reactivex.disposables.CompositeDisposable
 
 import kotlinx.android.synthetic.main.activity_main_sermon_list.*
@@ -33,6 +37,11 @@ class MainSermonListActivity : RxAppCompatActivity() {
 
     private fun changeMessageListType(type: MsgType) {
         if(type == mType) return
+        if(!isConnectedTo()) {
+            showNetworkAlertDialog(this)
+            return
+        }
+
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
         when(type) {
@@ -107,6 +116,20 @@ class MainSermonListActivity : RxAppCompatActivity() {
         subscriptions.clear()
     }
 
-    //private fun obtainViewModel(): MainSermonListViewModel = obtainViewModel(MainSermonListViewModel::class.java)
+
+    private fun isConnectedTo(): Boolean {
+        val cm: ConnectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+
+        if (null != activeNetwork) {
+            when(activeNetwork.type) {
+                ConnectivityManager.TYPE_WIFI -> return true
+                ConnectivityManager.TYPE_MOBILE -> return true
+                else -> return false
+            }
+        }
+        return false
+    }
+
 }
 
